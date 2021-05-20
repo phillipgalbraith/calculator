@@ -3,12 +3,28 @@ function add(a,b) {return a+b};
 function subtract (a,b) {return a-b};
 function multiply (a,b) {return a*b};
 function divide (a,b) {
-    return Math.round(a/b*100)/100};
+    return a/b
+};
 
 /*Create a new function operate that takes an operator and 2 numbers 
 and then calls one of the above functions on the numbers.
 */
-function operate(operator,num1, num2) {return operator(num1,num2)};
+function operate(operatorString,num1, num2){ 
+    if (operatorString === "+") {
+        return add(num1,num2)
+    } else if (operatorString === "-") {
+        return subtract(num1,num2)
+    } else if (operatorString === "*") {
+        return multiply(num1,num2)
+    } else if (operatorString === "/") {
+        return divide(num1, num2)
+    } else {return console.log("Hey, this ain't no operator: '" + operator + "'!")
+    };
+
+    return
+};
+
+
 
 /*
 Create a basic HTML calculator with buttons for each digit, each of 
@@ -20,35 +36,8 @@ Add a “clear” button.
 
 
 Create the functions that populate the display when you click the number
- buttons… you should be storing the ‘display value’ in a variable somewhere
-  for use in the next step.
+ buttons… 
 */
-
-let screenString = "0"; // always reset to default zero
-let calcArray = []; //split to make areguments in operate()
-let screenContent = ""; 
-let initialValue = 0;
-let answerArray = [];
-
-const screen = document.querySelector('#screen'); //select the screen
-
-function updateScreen() {
-    screen.removeChild(screen.firstElementChild); //clears the screen
-    let newScreenContent = document.createElement('div');
-    newScreenContent.classList.add('screenContent');
-    newScreenContent.textContent = screenContent + screenString;
-    screen.appendChild(newScreenContent);
-    return
-}
-
-
-
-
-
-
-
-
-//buttons (btn's) are divs
 const oneBtn = document.querySelector("#one");
 const twoBtn = document.querySelector("#two");
 const threeBtn = document.querySelector("#three");
@@ -68,206 +57,166 @@ const subtractBtn = document.querySelector("#subtract");
 const multiplyBtn = document.querySelector("#multiply");
 const divideBtn = document.querySelector("#divide");
 
+//you should be storing the *** ‘display value’ in a variable somewhere
+  //for use in the next step.
+let displayValue = ""; 
 
-function testNegative() {
-    let testerFloat = parseFloat(screenString);
-    return testerFloat < 0;
-}
+const display = document.querySelector('#display'); //select the screen
 
-function noStartingZero() {
-    if(screenString === "0" || screenString === "-0") {
-        screenString =  screenString.replace("0","");
-        return
-    }
+function populate() {
+    let oldContent = document.querySelector('#content');
+    display.removeChild(oldContent);
+    let newContent = document.createElement('div');
+    newContent.textContent = displayValue;
+    newContent.id= 'content';
+    display.appendChild(newContent);
     return
-}
+};
 
-
-
-function screenFull() {
-        if (screenString.length > 9){
-        screenString.slice(screenString.length-1,screenString.length); //backspace
-    }
-}
+populate();
 
 function oneClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "1";
-    updateScreen();
-    return 
-}
-
+    displayValue +="1";
+    populate();
+    return
+};
 function twoClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "2";
-    updateScreen();
-    return 
-}
-
+    displayValue +="2";
+    populate();
+    return
+};
 function threeClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "3";
-    updateScreen();
-    return 
-}
-
+    displayValue +="3";
+    populate();
+    return
+};
 function fourClicked() {
-    noStartingZero();
-    screenString += "4";
-    updateScreen();
-    return 
-}
-
+    displayValue +="4";
+    populate();
+    return
+};
 function fiveClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "5";
-    updateScreen();
-    return 
-}
-
+    displayValue +="5";
+    populate();
+    return
+};
 function sixClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += " 6";
-    updateScreen();
-    return 
-}
-
+    displayValue +="6";
+    populate();
+    return
+};
 function sevenClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "7";
-    updateScreen();
-    return 
-}
-
+    displayValue +="7";
+    populate();
+    return
+};
 function eightClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "8";
-    updateScreen();
-    return 
-}
-
+    displayValue +="8";
+    populate();
+    return
+};
 function nineClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "9";
-    updateScreen();
-    return 
-}
-
+    displayValue +="9";
+    populate();
+    return
+};
 function zeroClicked() {
-    noStartingZero();
-    screenFull();
-    screenString += "0";
-    updateScreen();
-    return 
-}
+    displayValue +="0";
+    populate();
+    return
+};
 
 
+//Make the calculator work! You’ll need to store the first number that is 
+//input into the calculator when a user presses an operator,
+
+        //me: firstNumInput = displayValue;
+
+let firstNumInput = "";
+
+//and also save which operation has been chosen
+        //me: operator = "+" etc.
+let operator = "+"; //a global string variable that is set by operatorClicked
+
+//This is the hardest part of the project. You need to figure out how to
+// store all the values and call the operate function with them. Don’t feel 
+// bad if it takes you a while to figure out the logic.
+// if (counter !== 0) {
+//    firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
+//    } else {
+//    firstNumInput = parseFloat(displayValue);
+//  };
+//
+let counter = 0; //if (counter > 0) operate and = firstNumInput
 function decimalClicked() {
-    if (screenString.contains(".")===true){return}
-    screenFull();
-    screenString += ".";
-    updateScreen();
-    return 
-}
-
+    populate();
+    return
+};
 
 function clearClicked() {
-    screenString = "0";
-    screenContent = "";
-    calcArray.splice(0, calcArray.length);
-    updateScreen();
-    return 
-}
-
-
-
-function operatorClicked(operator){
-    if (calcArray.length >= 8) {return}; 
-    calcArray.push(parseFloat(screenString));
-    calcArray.push(operator);
-    screenContent += screenString;
-    if (operator === add) {
-        screenContent += " + ";
-    } else if (operator === subtract) {
-        screenContent += " - ";
-    } else if (operator === multiply) {
-        screenContent += " * ";
-    } else {
-        screenContent += " / ";
-    }
-    
-    screenString = "0";
+    populate();
     return
-}
-
-function addClicked() {
-    operatorClicked(add);
-    updateScreen();
-    return 
-}
+};
 
 function subtractClicked() {
-    if (screenString === "0"){ 
-        screenString === "-0"
-        updateScreen();
-        return
-     } 
-     operatorClicked(subtract);
-     updateScreen();
-     return
-}
-
-function multiplyClicked() {
-    operatorClicked(multiply);
-    updateScreen();
-    return 
-}
-
-function divideClicked() {
-    operatorClicked(divide);
-    updateScreen();
-    return 
-}
-
-function reducer(accumulator, currentValue) { 
-    
-}
-
-function equalsClicked() {
-    console.table(calcArray);
-     if (calcArray[calcArray.length-1] === divide && screenString === "0") {
-        alert("Divide by zero is undefined.");
-        clearClicked();
-        return
-    }
-   
-    screenString = operate(calcArray[1],calcArray[0],parseFloat(screenString));
-    
-    if (calcArray.length >= 4){
-        for (i=1;i<= (calcArray.length-2)/2; ++i){
-            calcArray.shift;
-            calcArray.shift;
-            console.log(calcArray[0],screenString);
-            screenString = operate(calcArray[1],parseFloat(screenString), calcArray[2]);
-            
-        } 
-        
-        
-    }
-    console.log(calcArray[0],screenString);
-    calcArray.splice(0, calcArray.length);
-    screenContent = "";
-    updateScreen();
+    if (counter !== 0) {
+        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
+    } else {
+        firstNumInput = parseFloat(displayValue);
+    };
+    operator = "-";
+    displayValue = "";
+    counter += 1;
+    populate();
     return
-}
+};
+function addClicked() {
+    if (counter !== 0) {
+        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
+    } else {
+        firstNumInput = parseFloat(displayValue);
+    };
+    operator = "+";
+    displayValue = "";
+    counter += 1;
+    populate();
+    return
+};
+function multiplyClicked() {
+    if (counter !== 0) {
+        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
+    } else {
+        firstNumInput = parseFloat(displayValue);
+    };
+    operator = "*";
+    displayValue = "";
+    
+    counter += 1;
+    populate();
+    return
+};
+function divideClicked() {
+    if (counter !== 0) {
+        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
+    } else {
+        firstNumInput = parseFloat(displayValue);
+    };
+    operator = "/";
+    displayValue = "";
+    counter += 1;
+    populate();
+    return
+};
+
+
+//and then operate() on them when the user presses the “=” key.
+function equalsClicked() {
+    displayValue = operate(operator, firstNumInput, parseFloat(displayValue));
+    firstNumInput = 0;
+    counter = 0;
+    populate(); //update the display with the ‘solution’ to the operation.
+    return
+};
 
 oneBtn.addEventListener('click', oneClicked); // associate the function above with the click event
 
@@ -303,31 +252,28 @@ divideBtn.addEventListener('click', divideClicked);
 
 equalsBtn.addEventListener('click', equalsClicked);
 
-/*
 
 
-  Make the calculator work! You’ll need to store the first number that is 
-input into the calculator when a user presses an operator, and also save 
-which operation has been chosen and then operate() on them when the user presses the “=” key.
-You should already have the code that can populate the display, so once
- operate() has been called, update the display with the ‘solution’ to the operation.
-This is the hardest part of the project. You need to figure out how to
- store all the values and call the operate function with them. Don’t feel 
- bad if it takes you a while to figure out the logic.
-Gotchas: watch out for and fix these bugs if they show up in your code:
-Users should be able to string together several operations and get the right answer, with
- each pair of numbers being evaluated at a time. For example, 12 + 7 - 5 * 3 = should 
- yield 42. An example of the behavior we’re looking for would be this student solution. 
- Your calculator should not evaluate more than a single pair of numbers at a time. If 
+ /*Your calculator should not evaluate more than a single pair of numbers at a time. If 
  you enter a number then an operator and another number that calculation should be 
  displayed if your next input is an operator. The result of the calculation should be 
  used as the first number in your new calculation.
+
+
+
 You should round answers with long decimals so that they don’t overflow the screen.
+
+
+
 Pressing = before entering all of the numbers or an operator could cause problems!
 Pressing “clear” should wipe out any existing data.. make sure the user is really starting 
 fresh after pressing “clear”
+
+
 Display a snarky error message if the user tries to divide by 0… don’t let it crash your 
 calculator!
+
+
 EXTRA CREDIT: Users can get floating point numbers if they do the math required to get 
 one, but they can’t type them in yet. Add a . button and let users input decimals! Make 
 sure you don’t let them type more than one though: 12.3.56.5. It is hard to do math on 
