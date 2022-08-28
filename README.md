@@ -5,4 +5,9 @@ operations (not order of operations).
 It is deployed on Vercel at:
 https://calculator-one-eosin.vercel.app/
 
-I added tests with QAWolf.
+## QA Wolf
+I added tests with QAWolf. Triggered by GitHub PR Label:
+ Ready for QA Wolf
+
+Tests run on to all deployment types
+applies to all branches
