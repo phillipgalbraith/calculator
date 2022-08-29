@@ -15,3 +15,6 @@ I added tests with QAWolf. Triggered by GitHub Pull Requests:
 
 Tests run on to all deployment types
 applies to all branches
+
+I am going to send an http post request to QA Wolf to trigger 
+a test for the vercel deployment:
