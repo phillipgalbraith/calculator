@@ -18,3 +18,5 @@ applies to all branches
 
 I am going to send an http post request to QA Wolf to trigger 
 a test for the vercel deployment:
+
+curl -H "Authorization: qawolf_c2c2c7503d6a4684a2419d5757bcc312" -H "Content-Type: application/json" https://app.qawolf.com/api/webhooks/deploy_success -d '{"branch": "feature/new-note", "deployment_type": "preview", "deployment_url": "//from the vercel preview on GitHub//"}'
