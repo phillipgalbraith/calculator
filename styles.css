@@ -2,7 +2,7 @@ div {
     font-family: "Lucida Console", "Courier New", monospace;
     font-weight: bold;
 
-    color: rgb(255, 255, 255)
+    color: darkslategray;
 }
 
 #calculator {
@@ -25,6 +25,11 @@ div {
     justify-content: right;
     width: 200px;
     height: 20%;
+    color: white;
+}
+
+#content {
+    color: white;
 }
 
 #numPad {

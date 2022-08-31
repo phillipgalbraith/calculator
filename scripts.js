@@ -1,7 +1,3 @@
-//I LEFT OFF AT ***** search it
-//you should be storing the *** ‘display value’ in a variable somewhere
-  //for use in the next step.
-
   let displayValue = ''; // numbers go to display and num1 and num2 values
   let displayString = ''; // what you see on the display
   let firstNumInput = ''; //num1 for operate, stored when operators are selected
@@ -13,45 +9,27 @@
 function add(a,b) {return a+b};
 function subtract (a,b) {return a-b};
 function multiply (a,b) {return a*b};
-function divide (a,b) {
-    return a/b
-};
+function divide (a,b) {return a/b};
 
 /*Create a new function operate that takes an operator and 2 numbers 
 and then calls one of the above functions on the numbers.
 */
 function operate(operatorString,num1, num2){ 
-    if (operatorString === '+') {
+    if (operatorString === '➕') {
         return add(num1,num2)
-    } else if (operatorString === '-') {
+    } else if (operatorString === '➖') {
         return subtract(num1,num2)
-    } else if (operatorString === '*') {
+    } else if (operatorString === '✖') { 
         return multiply(num1,num2)
     } else {
         return divide(num1, num2)
     };
-
-    return
 };
 
 function neatNum(number) {
     return Math.round(parseFloat(number) * 100)/100
 }
 
-
-
-/*
-Create a basic HTML calculator with buttons for each digit, each of 
-the above functions and an “Equals” key.
-Do not worry about wiring up the JS just yet.
-There should also be a display for the calculator, go ahead and fill it with
- some dummy numbers so you can get it looking right.
-Add a “clear” button.
-
-
-Create the functions that populate the display when you click the number
- buttons… 
-*/
 const oneBtn = document.querySelector("#one");
 const twoBtn = document.querySelector("#two");
 const threeBtn = document.querySelector("#three");
@@ -86,63 +64,9 @@ function populate() {
 
 populate();
 
-function oneClicked() {
-    displayValue += '1';
-    displayString  += '1';
-    populate();
-    return
-};
-function twoClicked() {
-    displayValue += '2';
-    displayString  += '2';
-    populate();
-    return
-};
-function threeClicked() {
-    displayValue +='3';
-    displayString  += '3';
-    populate();
-    return
-};
-function fourClicked() {
-    displayValue += '4';
-    displayString  += '4';
-    populate();
-    return
-};
-function fiveClicked() {
-    displayValue += '5';
-    displayString  += '5';
-    populate();
-    return
-};
-function sixClicked() {
-    displayValue += '6';
-    displayString  += '6';
-    populate();
-    return
-};
-function sevenClicked() {
-    displayValue += '7';
-    displayString  += '7';
-    populate();
-    return
-};
-function eightClicked() {
-    displayValue += '8';
-    displayString  += '8';
-    populate();
-    return
-};
-function nineClicked() {
-    displayValue += '9';
-    displayString  += '9';
-    populate();
-    return
-};
-function zeroClicked() {
-    displayValue += '0';
-    displayString  += '0';
+function numClicked(e) {
+    displayValue += e.target.textContent;
+    displayString  += e.target.textContent;
     populate();
     return
 };
@@ -156,6 +80,12 @@ function zeroClicked() {
 //    firstNumInput = parseFloat(displayValue);
 //  };
 //
+function noDivideByZero() {
+    displayString = displayString.substring(0, displayString.length - 1);
+    displayValue = '';
+    populate();
+    return alert('Dividing any value by zero is undefined.')
+}
 
 function decimalClicked() {
     if (displayValue === ''){
@@ -180,24 +110,19 @@ function clearClicked() {
     return
 };
 
-
-
-function subtractClicked() {
+function operatorClicked(e) {
     if(counter > 0 && parseFloat(displayValue) === 0 && displayString.includes('/') ){
-        displayString = displayString.substring(0, displayString.length - 1);
-        displayValue = '';
-        populate();
-        return alert('Dividing any value by zero is undefined.')
+        noDivideByZero();
     } else if (displayValue === '')  {
         return
     } else if (counter !== 0) {
         displayString = neatNum(firstNumInput) + ' ' + operator + ' ' + neatNum(displayValue) + ' = ';
         firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
-        operator = '-';
+        operator = e.target.textContent;
         displayString += Math.round(firstNumInput*1000000)/1000000 + '_  _' + neatNum(firstNumInput) + ' ' + operator + ' ';
     } else {
         firstNumInput = parseFloat(displayValue);
-        operator = '-';
+        operator = e.target.textContent;
         displayString = firstNumInput + ' ' + operator + ' ';
     };
     displayValue = '';
@@ -205,87 +130,11 @@ function subtractClicked() {
     populate();
     return
 };
-function addClicked() {
-    if(counter > 0 && parseFloat(displayValue) === 0 && displayString.includes('/') ){
-        displayString = displayString.substring(0, displayString.length - 1);
-        displayValue = '';
-        populate();
-        return alert('Dividing any value by zero is undefined.')
-    } else if (displayValue === '')  {
-        return
-    } else if (counter !== 0) {
-        displayString = neatNum(firstNumInput) + ' ' + operator + ' ' + displayValue + ' = ';
-        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
-        operator = '+';
-        displayString += Math.round(firstNumInput*1000000)/1000000 + '_  _' + neatNum(firstNumInput) + ' ' + operator + ' ';
-    } else {
-        firstNumInput = parseFloat(displayValue);
-        operator = '+';
-        displayString = firstNumInput + ' ' + operator + ' ';
-    };
-    displayValue = '';
-    counter += 1;
-    populate();
-    return
-};
-function multiplyClicked() {
-    if(counter > 0 && parseFloat(displayValue) === 0 && displayString.includes('/') ){
-        displayString = displayString.substring(0, displayString.length - 1);
-        displayValue = '';
-        populate();
-        return alert('Dividing any value by zero is undefined.')
-    } else if (displayValue === '')  {
-        return
-    }else if (counter !== 0) {
-        displayString = firstNumInput + ' ' + operator + ' ' + displayValue + ' = ';
-        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
-        operator = '*';
-        displayString += Math.round(firstNumInput*1000000)/1000000 + '_  _' + neatNum(firstNumInput) + ' ' + operator + ' ';
-    } else {
-        firstNumInput = parseFloat(displayValue);
-        operator = '*';
-        displayString = Math.round(firstNumInput*1000000)/1000000 + ' ' + operator + ' ';
-    };
-    displayValue = '';
-    counter += 1;
-    populate();
-    return
-};
-
-
-function divideClicked() {
-    if(counter > 0 && parseFloat(displayValue) === 0 && displayString.includes('/') ){
-        displayString = displayString.substring(0, displayString.length - 1);
-        displayValue = '';
-        populate();
-        return alert('Dividing any value by zero is undefined.')
-    } else if (displayValue === '')  {
-        return 
-    } else if (counter !== 0) {
-        displayString = firstNumInput + ' ' + operator + ' ' + displayValue + ' = ';
-        firstNumInput  = operate(operator, firstNumInput, parseFloat(displayValue));
-        operator = '/';
-        displayString += Math.round(firstNumInput*1000000)/1000000 + '_  _' + neatNum(firstNumInput) + ' ' + operator + ' ';
-    } else {
-        firstNumInput = parseFloat(displayValue);
-        operator = '/';
-        displayString = firstNumInput + ' ' + operator + ' ';
-        counter += 1;
-    };
-    displayValue = '';
-    
-    populate();
-    return
-};
-
 
 //and then operate() on them when the user presses the “=” key.
 function equalsClicked() {
     if(counter > 0 && parseFloat(displayValue) === 0 && displayString.includes('/') ){
-        displayString = displayString.substring(0, displayString.length - 1);
-        displayValue = '';
-        populate();
-        return alert('Dividing any value by zero is undefined.')
+        noDivideByZero();
     } else if (displayValue === '')  {
         return
     } else if (counter !== 0) {
@@ -302,41 +151,17 @@ function equalsClicked() {
     return
 };
 
-oneBtn.addEventListener('click', oneClicked); // associate the function above with the click event
-
-twoBtn.addEventListener('click', twoClicked); 
-
-threeBtn.addEventListener('click', threeClicked); 
-
-fourBtn.addEventListener('click', fourClicked); 
-
-fiveBtn.addEventListener('click', fiveClicked); 
-
-sixBtn.addEventListener('click', sixClicked); 
-
-sevenBtn.addEventListener('click', sevenClicked); 
-
-eightBtn.addEventListener('click', eightClicked); 
-
-nineBtn.addEventListener('click', nineClicked); 
-
-zeroBtn.addEventListener('click', zeroClicked); 
+[oneBtn,twoBtn,threeBtn,fourBtn,fiveBtn,sixBtn,sevenBtn,eightBtn,nineBtn,zeroBtn]
+  .forEach( e => e.addEventListener('click', numClicked)); // associate the function above with the click event
 
 decimalBtn.addEventListener('click', decimalClicked); 
 
 clearBtn.addEventListener('click', clearClicked); 
 
-addBtn.addEventListener('click', addClicked);
-
-subtractBtn.addEventListener('click', subtractClicked);
-
-multiplyBtn.addEventListener('click', multiplyClicked);
-
-divideBtn.addEventListener('click', divideClicked);
+[addBtn,subtractBtn,multiplyBtn,divideBtn]
+  .forEach( e => {return e.addEventListener('click', operatorClicked)});
 
 equalsBtn.addEventListener('click', equalsClicked);
-
-
 
  //Your calculator should not evaluate more than a single pair of numbers at a time. 
     //The result of the calculation should be 
